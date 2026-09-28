@@ -55,7 +55,8 @@ def guardar(imagen: Image.Image, destino: Path, fondo: str) -> None:
     extension = ".png" if fondo == "transparente" else ".jpg"
     archivo_salida = destino.parent / f"{destino.name}{extension}"
     if fondo != "transparente":
-        color = "white" if fondo == "blanco" else ImageColor.getrgb(fondo)
+        colores = {"blanco": "white", "gris": "#D9D9D9"}
+        color = ImageColor.getrgb(colores.get(fondo, fondo))
         lienzo = Image.new("RGB", imagen.size, color)
         lienzo.paste(imagen, mask=imagen.getchannel("A"))
         lienzo.save(archivo_salida, quality=95, optimize=True)
